@@ -8,31 +8,26 @@ const refs = {
 
 refs.galleryList.addEventListener("click", showOriginalImage);
 
-const galleryListImages = galleryItems.map((image, index) => {
+const galleryListImages = galleryItems.map((image) => {
     const li = document.createElement("li");
     li.classList.add("gallery__item");
-    li.innerHTML = `<a class="gallery__link" href="${image.original}"><img class='gallery__image' data-index='${index}' data-source='${image.original}'src='${image.preview}' alt='${image.description}'/> </a>`;
+    li.innerHTML = `<a class="gallery__link" href="${image.original}">
+    <img class='gallery__image' data-source='${image.original}' src='${image.preview}' alt='${image.description}'/> </a>`;
+
     return li;
 });
 
 refs.galleryList.append(...galleryListImages);
 
 function showOriginalImage(event) {
+    event.preventDefault();
     if (event.target.tagName === "IMG") {
-        const imageIndex = event.target.dataset.index;
-        console.log(imageIndex);
+        const imageDescr = event.target.alt;
+        const imageSource = event.target.dataset.source;
         const instance = basicLightbox.create(
-            `<img src='${galleryItems[imageIndex].original}' alt='${galleryItems[imageIndex].description}' >`
+            `<img src='${imageSource}' alt='${imageDescr}' >`
         );
 
         instance.show();
     }
 }
-// //  <a class="gallery__link" href="large-image.jpg">
-//     <img
-//       class="gallery__image"
-//       src="small-image.jpg"
-//       data-source="large-image.jpg"
-//       alt="Image description"
-//     />
-//   </a>
