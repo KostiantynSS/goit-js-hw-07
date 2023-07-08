@@ -34,6 +34,10 @@ function showOriginalImage(event) {
                             isEscape = evt.key === "Escape";
                         }
                         if (isEscape) {
+                            refs.galleryList.removeEventListener(
+                                "click",
+                                showOriginalImage
+                            );
                             instance.close();
                         }
                     };
