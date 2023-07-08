@@ -25,7 +25,25 @@ function showOriginalImage(event) {
         const imageDescr = event.target.alt;
         const imageSource = event.target.dataset.source;
         const instance = basicLightbox.create(
-            `<img src='${imageSource}' alt='${imageDescr}' >`
+            `<img src='${imageSource}' alt='${imageDescr}' >`,
+            {
+                onShow: (instance) => {
+                    // Close when hitting escape.
+                    document.onkeydown = function (evt) {
+                        evt = evt || window.event;
+                        var isEscape = false;
+                        if ("key" in evt) {
+                            isEscape =
+                                evt.key === "Escape" || evt.key === "Esc";
+                        } else {
+                            isEscape = evt.keyCode === 27;
+                        }
+                        if (isEscape) {
+                            instance.close();
+                        }
+                    };
+                },
+            }
         );
 
         instance.show();
