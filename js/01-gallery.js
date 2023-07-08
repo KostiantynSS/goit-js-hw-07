@@ -28,15 +28,10 @@ function showOriginalImage(event) {
             `<img src='${imageSource}' alt='${imageDescr}' >`,
             {
                 onShow: (instance) => {
-                    // Close when hitting escape.
                     document.onkeydown = function (evt) {
-                        evt = evt || window.event;
-                        var isEscape = false;
+                        let isEscape = false;
                         if ("key" in evt) {
-                            isEscape =
-                                evt.key === "Escape" || evt.key === "Esc";
-                        } else {
-                            isEscape = evt.keyCode === 27;
+                            isEscape = evt.key === "Escape";
                         }
                         if (isEscape) {
                             instance.close();
