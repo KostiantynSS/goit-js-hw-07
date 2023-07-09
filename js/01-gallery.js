@@ -1,7 +1,5 @@
 import { galleryItems } from "./gallery-items.js";
-
 // Change code below this line
-
 const refs = {
     galleryList: document.querySelector(".gallery"),
 };
@@ -13,7 +11,6 @@ const galleryListImages = galleryItems.map((image) => {
     li.classList.add("gallery__item");
     li.innerHTML = `<a class="gallery__link" href="${image.original}">
     <img class='gallery__image' data-source='${image.original}' src='${image.preview}' alt='${image.description}'/> </a>`;
-
     return li;
 });
 
@@ -22,29 +19,22 @@ refs.galleryList.append(...galleryListImages);
 function showOriginalImage(event) {
     event.preventDefault();
     if (event.target.tagName === "IMG") {
-        const imageDescr = event.target.alt;
-        const imageSource = event.target.dataset.source;
         const instance = basicLightbox.create(
-            `<img src='${imageSource}' alt='${imageDescr}' >`,
+            `<img src='${event.target.dataset.source}' alt='${event.target.alt}' >`,
             {
                 onShow: (instance) => {
-                    document.onkeydown = function (evt) {
-                        let isEscape = false;
-                        if ("key" in evt) {
-                            isEscape = evt.key === "Escape";
-                        }
-                        if (isEscape) {
-                            refs.galleryList.removeEventListener(
-                                "click",
-                                showOriginalImage
-                            );
-                            instance.close();
-                        }
-                    };
+                    window.addEventListener("keydown", onEscapeKey);
+                },
+                onClose: (instance) => {
+                    window.removeEventListener("keydown", onEscapeKey);
                 },
             }
         );
-
+        function onEscapeKey(event) {
+            if (event.code === "Escape") {
+                instance.close();
+            }
+        }
         instance.show();
     }
 }

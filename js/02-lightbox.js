@@ -3,7 +3,6 @@ import { galleryItems } from "./gallery-items.js";
 const refs = {
     galleryList: document.querySelector(".gallery"),
 };
-refs.galleryList.addEventListener("click", showImage);
 
 const galleryListImages = galleryItems.map((image) => {
     const li = document.createElement("li");
@@ -15,13 +14,8 @@ const galleryListImages = galleryItems.map((image) => {
 });
 
 refs.galleryList.append(...galleryListImages);
-function showImage(event) {
-    event.preventDefault();
-    if (event.target.tagName === "IMG") {
-        const gallery = new SimpleLightbox(".gallery a", {
-            captionsData: "alt",
-            captionDelay: 250,
-        });
-        return refs.galleryList.removeEventListener("click", showImage);
-    }
-}
+
+const gallery = new SimpleLightbox(".gallery a", {
+    captionsData: "alt",
+    captionDelay: 250,
+});
